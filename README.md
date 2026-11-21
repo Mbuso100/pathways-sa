@@ -242,6 +242,42 @@ Before a public pilot, additional work is required on independent isiZulu review
 
 The prototype does not currently include a database, user accounts, verified live vacancies, or an integrated AI recommendation engine. Links to external information portals are provided for exploration and do not represent confirmed open applications.
 
+## Development Roadmap
+
+Pathways SA is being developed as a long-term, independent, free-to-use platform to help South Africans discover their interests, explore career and education pathways, build practical skills, and navigate trustworthy opportunities.
+
+The project begins with a planned KwaZulu-Natal pilot supporting English and isiZulu, with the ambition to expand nationally.
+
+### Where the project is today
+
+Version 0.9 is a local engineering prototype featuring a bilingual, three-stage Water Challenge, non-diagnostic reflections, exploratory career information, a FastAPI backend, and automated testing.
+
+The platform is not yet publicly deployed or validated. AI guidance, verified live opportunities, user accounts, and persistent progress tracking have not been implemented.
+
+### Where we're going
+
+Development is organized into nine phases:
+
+1. **Product validation** — Research user needs, validate assumptions, and refine the experience.
+2. **Technical foundation** — Strengthen architecture, testing, accessibility, security, and documentation.
+3. **Discover My Direction** — Expand interactive activities, interests exploration, and reflections.
+4. **Career exploration** — Build evidence-backed career profiles and education pathways.
+5. **Opportunity navigation** — Introduce verified bursaries, learnerships, training, and employment resources.
+6. **AI guidance and learning** — Explore grounded, explainable AI assistance alongside practical learning activities.
+7. **My Journey** — Introduce optional progress tracking, goals, and personal learning journeys.
+8. **KwaZulu-Natal pilot** — Conduct user testing, language review, and safeguarding assessments.
+9. **National expansion** — Improve coverage, partnerships, and accessibility across South Africa.
+
+These are planned development stages, not claims that the features have already been delivered.
+
+### Engineering priorities
+
+The immediate priorities are accessibility and keyboard navigation, bilingual experience quality, stronger career information structures, and the next version of the discovery journey.
+
+Development progress, engineering decisions, and limitations will be documented openly as the project evolves.
+
+**Full roadmap:** [Development Roadmap](docs/ROADMAP.md)
+
 ## Project Ownership
 
 Pathways SA is an independently developed software engineering project.
