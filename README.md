@@ -1,63 +1,174 @@
+
 # Pathways SA
 
-Independent, free-to-use South African career exploration prototype, beginning with a KwaZulu-Natal pilot in English and isiZulu.
+**A bilingual career exploration platform for South African youth.**
 
-**Status: v0.9 engineering-readiness candidate — local prototype, not deployed or validated for public reliance.** No verified live vacancies, AI integration, database, accounts, or real-world outcome evidence. All isiZulu content needs review by fluent speakers.
+Pathways SA is an independently developed, mobile-first web application that introduces young South Africans to career possibilities through an interactive decision-making experience.
 
-## What works
+The initial prototype focuses on KwaZulu-Natal and supports English and isiZulu. It combines a React and TypeScript frontend with a Python/FastAPI backend, emphasizing clear application architecture, deterministic business logic, API contracts, and automated testing.
 
-A mobile-first React/TypeScript interface supports welcome → fictional three-stage water challenge → non-diagnostic reflection → exploratory career area → official information portals. A FastAPI backend validates stages and serves curated content. A separate eligibility evaluator uses synthetic examples only. No user profiles or answers are stored.
+> **Project status:** Version 0.9 — functional engineering prototype. The application has been tested locally and through GitHub Actions but has not yet been deployed for public use.
 
-The portal links are **not verified open applications**, and career examples are not accredited career guidance. The project does not claim to assess intelligence or determine career fit.
+## Features
 
-## Architecture
+### Interactive career exploration
 
-| Location | Responsibility |
+The application guides users through a fictional, three-stage water-management challenge. Each stage presents a practical situation and allows users to explore different approaches to solving it.
+
+At the end of the challenge, users receive a reflection on their choices, an introduction to related career areas, and links to established South African information portals.
+
+The experience is exploratory rather than diagnostic. It does not measure intelligence, determine career suitability, or establish eligibility for employment or study.
+
+### Bilingual user experience
+
+The interface supports:
+
+- English
+- isiZulu
+
+Both language journeys are covered by automated browser tests. The isiZulu content requires independent language review before public deployment.
+
+### Backend services
+
+The Python/FastAPI backend provides:
+
+- Scenario content and progression.
+- Validation of challenge stages.
+- Structured API responses.
+- Curated career-related information.
+- A separate, deterministic eligibility evaluator using synthetic test cases.
+
+The current prototype does not require user registration or store individual challenge responses.
+
+## Technology Stack
+
+| Layer | Technologies |
 | --- | --- |
-| `apps/web/src/Landing.tsx` | Approved homepage and presentation |
-| `apps/web/src/api.ts`, `types.ts`, `copy.ts` | HTTP transport, types, bilingual copy |
-| `apps/web/e2e/` | Chromium end-to-end English/isiZulu journeys |
-| `apps/api/pathways/domain/` | Deterministic domain rules and curated references |
-| `apps/api/pathways/api/` | FastAPI HTTP interface and response contracts |
-| `apps/api/tests/` | Domain and API contract tests |
-| `docs/decisions/` | Architecture and quality decisions |
-| `.github/workflows/` | API, web, and browser checks on push/PR |
+| Frontend | React, TypeScript, Vite |
+| Backend | Python, FastAPI, Pydantic |
+| Backend testing | Pytest |
+| Frontend testing | Vitest |
+| End-to-end testing | Playwright, Chromium |
+| Code quality | TypeScript, ESLint |
+| Continuous integration | GitHub Actions |
+| Version control | Git, GitHub |
 
-## Prerequisites
+## System Architecture
+
+The application separates user-interface presentation, HTTP communication, and backend domain logic.
+
+| Directory | Responsibility |
+| --- | --- |
+| `apps/web/src/` | Frontend components, API client, types, and localization |
+| `apps/web/e2e/` | English and isiZulu browser tests |
+| `apps/api/pathways/api/` | FastAPI endpoints and response contracts |
+| `apps/api/pathways/domain/` | Domain rules, scenarios, and resources |
+| `apps/api/tests/` | Backend unit and API contract tests |
+| `docs/decisions/` | Architecture decision records |
+| `docs/engineering-review.md` | Engineering review and debugging case study |
+| `.github/workflows/` | Automated backend and frontend verification |
+
+### Repository structure
+
+```text
+pathways-sa/
+├── .github/
+│   └── workflows/
+├── apps/
+│   ├── api/
+│   │   ├── pathways/
+│   │   │   ├── api/
+│   │   │   ├── application/
+│   │   │   └── domain/
+│   │   ├── tests/
+│   │   └── pyproject.toml
+│   └── web/
+│       ├── e2e/
+│       ├── src/
+│       ├── package.json
+│       └── playwright.config.ts
+├── docs/
+│   ├── decisions/
+│   └── engineering-review.md
+└── README.md
+```
+
+## Installation and Local Development
+
+### Prerequisites
 
 - Node.js 22 and npm
-- Python 3.12+ (CI uses 3.12; local Windows verification used 3.14)
-- Chromium installed through Playwright for browser tests
+- Python 3.12 or later
+- Git
+- Chromium, installed through Playwright for browser testing
 
-## Setup and run locally
+### 1. Clone the repository
 
-From the repository root, set up the backend:
+```bash
+git clone https://github.com/Mbuso100/pathways-sa.git
+cd pathways-sa
+```
+
+### 2. Configure the backend
+
+From the project root:
 
 ```powershell
 cd apps/api
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[dev]"
-.\.venv\Scripts\python.exe -m pytest -q
 ```
 
-On macOS/Linux, use `.venv/bin/python` instead of `.venv\Scripts\python.exe`.
-
-In a separate terminal, start the backend from `apps/api`:
+Start the FastAPI development server:
 
 ```powershell
 .\.venv\Scripts\python.exe -m uvicorn pathways.api.main:app --reload
 ```
 
-From `apps/web`, install and run the frontend:
+The API will be available at:
+
+- API: http://127.0.0.1:8000
+- API documentation: http://127.0.0.1:8000/docs
+
+On macOS and Linux, use `.venv/bin/python` instead of the Windows virtual-environment executable.
+
+### 3. Configure the frontend
+
+Open a second terminal and navigate to `apps/web`:
 
 ```powershell
+cd apps/web
 npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173. API documentation: http://127.0.0.1:8000/docs.
+Open the application at:
 
-## Quality gates
+http://127.0.0.1:5173
+
+## Testing and Quality Assurance
+
+The project uses automated testing at the domain, API, frontend, and browser levels.
+
+### Verified test results
+
+| Verification | Result |
+| --- | --- |
+| Python backend tests | 24 passed |
+| Frontend unit tests | 6 passed |
+| End-to-end browser tests | 2 passed |
+| TypeScript type checking | Passed |
+| ESLint | Passed |
+| Production build | Passed |
+| npm dependency audit | 0 reported vulnerabilities |
+| GitHub Actions — API tests | Passed |
+| GitHub Actions — Web quality checks | Passed |
+
+**Total: 32 automated tests passed locally.**
+
+Both GitHub Actions workflows also completed successfully for the initial release commit, `63aa8e9`.
+
+### Backend tests
 
 From `apps/api`:
 
@@ -65,24 +176,78 @@ From `apps/api`:
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
+### Frontend quality checks
+
 From `apps/web`:
 
 ```powershell
-npm ci
 npm run check
-npx playwright install chromium
-npm run test:e2e
-npm audit
 ```
 
-`npm run check` runs TypeScript, ESLint, Vitest, and a production build. Playwright starts both development servers when necessary and prefers `apps/api/.venv` automatically, falling back to `python` on PATH in CI. Browser tests run with one worker to reduce local resource pressure. Avoid running an extra backend server on port 8000 unless deliberately reusing it.
+This command executes:
 
-**Observed local verification on the supplied v0.8 sources:** 24 backend tests, 6 Vitest tests and 2 Chromium journeys passed; frontend check/build passed; npm audit reported zero vulnerabilities. **v0.9 configuration and CI have not yet been rerun or verified on GitHub.**
+1. TypeScript type checking.
+2. ESLint static analysis.
+3. Vitest unit tests.
+4. Production build verification.
 
-## Engineering review and limitations
+### Browser tests
 
-See `docs/engineering-review.md` for a real test-runner conflict and the resolution. The decision records explain the deterministic, non-diagnostic design and modular boundaries.
+```powershell
+npx playwright install chromium
+npm run test:e2e
+```
 
-Remaining work before public use: independent isiZulu review; content provenance and source review dates; accessibility and mobile usability testing; privacy/safeguarding review; real opportunity verification; deployment and security assessment. Do not describe the current prototype as an AI guidance engine.
+Playwright verifies the complete Water Challenge journey in both English and isiZulu. The test configuration uses one worker to reduce resource consumption during local execution.
 
-The product name is provisional. This project is not affiliated with the linked information providers.
+## Engineering Decisions
+
+Several design decisions were documented during development.
+
+### Deterministic application logic
+
+The backend uses explicit, testable rules for scenario progression and eligibility evaluation.
+
+This approach provides predictable behavior and makes the application's decisions easier to verify.
+
+### Separation of responsibilities
+
+Frontend presentation, API communication, and domain logic are organized into separate modules.
+
+This structure improves maintainability and allows components to be tested independently.
+
+### Automated verification
+
+Backend tests validate domain behavior and API contracts, while frontend unit tests cover client-side utilities.
+
+Playwright adds browser-level verification of the complete user experience.
+
+### AI-assisted software engineering
+
+AI assistance was used during development, alongside manual execution, debugging, and verification.
+
+One documented example involved a conflict between Vitest test discovery and Playwright test files. The issue was investigated and resolved by explicitly separating the test configurations.
+
+The investigation and corrective changes are recorded in [Engineering Review](docs/engineering-review.md).
+
+Further architectural decisions are documented in [Architecture Decision Records](docs/decisions).
+
+## Current Development Status
+
+Version 0.9 establishes a tested engineering foundation for the Pathways SA prototype.
+
+The current implementation includes the interactive discovery experience, bilingual content, Python backend services, automated tests, and continuous integration.
+
+Before a public pilot, additional work is required on independent isiZulu review, accessibility and mobile usability, content verification, privacy and security assessment, and deployment.
+
+The prototype does not currently include a database, user accounts, verified live vacancies, or an integrated AI recommendation engine. Links to external information portals are provided for exploration and do not represent confirmed open applications.
+
+## Project Ownership
+
+Pathways SA is an independently developed software engineering project.
+
+**GitHub:** [Mbuso100](https://github.com/Mbuso100)
+
+**Repository:** [Pathways SA](https://github.com/Mbuso100/pathways-sa)
+
+The project is not affiliated with the external information providers linked within the application.
