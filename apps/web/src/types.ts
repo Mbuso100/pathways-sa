@@ -1,0 +1,10 @@
+export type Lang = 'en' | 'zu';
+export type Step = 'welcome' | 'challenge' | 'stages' | 'reflection' | 'careers' | 'resources';
+export type StageChoice = { id:string; title:Record<Lang,string> };
+export type Stage = { id:string; title:Record<Lang,string>; story:Record<Lang,string>; choices:StageChoice[] };
+export type StageFeedback = { feedback:Record<Lang,string>; explore_career_id:string };
+export type Choice = { id: string; title: Record<Lang,string> };
+export type Challenge = { choices: Choice[] };
+export type Reflection = { reflection: Record<Lang,string>; explore_career_ids: string[] };
+export type Career = { id:string; title_en:string; title_zu:string; summary_en:string; summary_zu:string };
+export type Resource = { id:string; name:string; category:string; url:string; description_en:string; description_zu:string };
